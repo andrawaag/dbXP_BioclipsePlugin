@@ -11,6 +11,8 @@
 package net.bioclipse.dbxp.business;
 
 import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
+import java.util.Map;
 
 import org.eclipse.core.runtime.CoreException;
 
@@ -27,7 +29,7 @@ public interface IDbxpManager extends IBioclipseManager {
 
 	@Recorded
 	@PublishedMethod(
-			params = "String deviceID", 
+			params = "", 
 			methodSummary = "Authenticate a client using HTTP BASIC authentication. This API call is used to:\n" + 
 					"\n" + 
 					"initially set up a client/server session\n" + 
@@ -40,51 +42,50 @@ public interface IDbxpManager extends IBioclipseManager {
 					"Note that in order to be able to successfully authenticate or use the API in general, the user should have the ROLE_CLIENT assigned!"
 
 	)
-	public String authenticate(String deviceID)
+	public Map<String, String> authenticate()
 	throws IOException, BioclipseException, CoreException;
 	
 	@Recorded
 	@PublishedMethod(
-			params = "String deviceID, String validation", 
+			params = "", 
 			methodSummary = "Returns the studies which are readable and/or writable for the client. If the client should get access to a particular study, the client's username (used to authenticate) should be added as a reader to the study."
 
 	)
-	public String getStudies(String deviceID, String validation)
+	public  Map<String, Object> getStudies()
 	throws IOException, BioclipseException, CoreException;
 	
 	@Recorded
 	@PublishedMethod(
-			params = "String deviceID, String validation, String studyToken", 
+			params = "", 
 			methodSummary = "Returns the subjects for a particular study"
 
 	)
-    public String getSubjectsForStudy(String deviceID, String validation, String studyToken)
+    public  Map<String, Object> getSubjectsForStudy(String studyToken)
 	throws IOException, BioclipseException, CoreException;
 	
 	@Recorded
 	@PublishedMethod(
-			params = "String deviceID, String validation, String studyToken", 
+			params = "String studyToken", 
 			methodSummary = "Returns the assays for a particular study"
 
 	)
-	public String getAssaysForStudy(String deviceID, String validation, String studyToken) throws IOException, BioclipseException, CoreException;
+	public Map<String, Object> getAssaysForStudy(String studyToken) throws IOException, BioclipseException, CoreException;
 	
 	
 	@Recorded
 	@PublishedMethod(
-			params = "String deviceID, String validation, String assayToken", 
+			params = "String assayToken", 
 			methodSummary = "Returns the assays for a particular study"
 
 	)
-    public String getSamplesForAssay(String deviceID, String validation, String assayToken) throws IOException, BioclipseException, CoreException;
+    public Map<String, Object> getSamplesForAssay(String assayToken) throws IOException, BioclipseException, CoreException;
 	
 	@Recorded
 	@PublishedMethod(
-			params = "String deviceID, String validation, String assayToken", 
+			params = "String assayToken", 
 			methodSummary = "Returns the measurement data for a particular assay"
 
 	)
-    public String getMeasurementDataForAssay(String deviceID, String validation, String assayToken) throws IOException, BioclipseException, CoreException;
-
+    public Map<String, Object> getMeasurementDataForAssay(String assayToken) throws IOException, BioclipseException, CoreException;
 
 }
