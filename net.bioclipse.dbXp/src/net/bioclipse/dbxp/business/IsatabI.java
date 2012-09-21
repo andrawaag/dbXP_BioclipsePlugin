@@ -27,7 +27,6 @@ public class IsatabI {
 	private String publicationPersonRolesTermAccessionNumberList;
 	private String publicationPersonRolesTermSourceREF;
 	
-
 	public IsatabI(String investigationIdentifier, String investigationTitle, String investigationDescription, 
 			Date investigationSubmissionDate, Date investigationPublicReleaseDate,String[] pubmedIdList, String[] publicationDoiList,
 			String[] publicationAuthorList, String[] publicationTitleList, String[] publicationStatusList, String[] publicationStatusTermAccessionNumberList,
@@ -60,8 +59,7 @@ public class IsatabI {
 		this.publicationPersonRolesTermAccessionNumberList = publicationPersonRolesTermAccessionNumberList.toString();
 		this.publicationPersonRolesTermSourceREF = publicationPersonRolesTermSourceREF.toString();	
 	}
-	
-	
+		
 	public void setInvestigationIdentifier(String value){ this.investigationIdentifier=value;}
 	public void setInvestigationDescription(String value) {this.investigationDescription=value;}
 	public void setInvestigationTitle(String value) {this.investigationTitle = value;}
@@ -85,9 +83,4 @@ public class IsatabI {
 	public void setPublicationPersonRolesList(String value) {this.publicationPersonRolesList = value;};
 	public void setPublicationPersonRolesTermAccessionNumberList(String value) {this.publicationPersonRolesTermAccessionNumberList = value;};
 	public void setPublicationPersonRolesTermSourceRef(String value) {this.publicationPersonRolesTermSourceREF = value;};
-
-
-	
-	
-	
 }

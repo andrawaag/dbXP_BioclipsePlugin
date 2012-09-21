@@ -21,6 +21,7 @@ import java.net.UnknownHostException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -46,35 +47,77 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 
+
 public class DbxpManager implements IBioclipseManager {
 
-    private static final Logger logger = Logger.getLogger(DbxpManager.class);
+	public class IsatabI {
+		private String investigationIdentifier;
+		private String investigationTitle;
+		private String investigationDescription;
+		private Date investigationSubmissionDate;
+		private Date investigationPublicReleaseDate;
 
-	/*private static String userName = "";
-	private static String password = "";
+		public Investigation(String investigationIdentifier, String investigationTitle, String investigationDescription, Date investigationSubmissionDate, Date investigationPublicReleaseDate) {
+			this.investigationIdentifier = investigationIdentifier;
+			this.investigationTitle = investigationTitle;
+			this.investigationDescription = investigationDescription;
+			this.investigationSubmissionDate = investigationSubmissionDate;
+			this.investigationPublicReleaseDate = investigationPublicReleaseDate;
+		}
+		
+		public String getInvestigationIdentifier(){ return investigationIdentifier;}
+		
+		public String getInvestigationTitle(){ return investigationTitle;}
+		
+		public String getInvestigationDescription() { return investigationDescription;}
+		
+		public Date getInvestigationSubmissionDate() {return investigationSubmissionDate;}
+		
+		public Date getInvestigationPublicReleaseDate() {return investigationPublicReleaseDate;}
+	}
+
+	public class IsatabS {
+
+	}
+
+	public class IsattabA {
+
+	}
+
+	private static final Logger logger = Logger.getLogger(DbxpManager.class);
+
+	private static String userName = "andrawaag";
+	private static String password = "welkom";
 	private static String baseApiUrl = "http://old.studies.dbnp.org/api/";
-	private static String apiKey = "";
-   */
-	
-	//User specific credentials  studies 
-	private static String userName = "";
-	private static String password = "";
+	private static String apiKey = "74b73415-2973-4fb0-8494-4458043be0fe";
+
+
+	/*//User specific credentials  studies 
+	private static String userName = "andrawaag";
+	private static String password = "3kkdzoe#";
 	private static String baseApiUrl = "http://studies.dbnp.org/api/";
-    private static String apiKey = "";
-    
+    private static String apiKey = "e5484d2d-6446-4b5e-abf2-f8748b1c5ff1";
+	 */
 	//Local variables
 	private static String authenticate=null;
 	private static String token="";
 	private static int sequence=0;
-    /**
-     * Gives a short one word name of the manager used as variable name when
-     * scripting.
-     */
-    
-    public String getManagerName() {
-        return "dbxp";
-    }
-  
+	/**
+	 * Gives a short one word name of the manager used as variable name when
+	 * scripting.
+	 */
+
+	public String getManagerName() {
+		return "dbxp";
+	}
+
+	public static void login(){
+		System.out.println("To which server would you like to connect:");
+		System.out.println("1. studies.dbnp.org");
+		System.out.println("2. old.studies.dbnp.org");
+
+	}
+
 	public static String getMacAddress() throws SocketException, UnknownHostException{ 
 		InetAddress ip = InetAddress.getLocalHost();
 		NetworkInterface network = NetworkInterface.getByInetAddress(ip);
@@ -86,7 +129,7 @@ public class DbxpManager implements IBioclipseManager {
 		//System.out.println(sb.toString());
 		return sb.toString();
 	}
-	
+
 	public static String getDeviceId() throws NoSuchAlgorithmException, SocketException, UnknownHostException {
 		String deviceId = getMacAddress()+userName;
 		//System.out.println(deviceId);
@@ -94,13 +137,13 @@ public class DbxpManager implements IBioclipseManager {
 	}
 
 	/* getMD5Sum returns the MD5 sum of the variable parameteren */
-	
+
 	public static String getMD5Sum(String variable) throws NoSuchAlgorithmException{	
 		MessageDigest md=MessageDigest.getInstance("MD5");
 		md.update(variable.getBytes());
 		return new BigInteger(1,md.digest()).toString(16);
 	}
-	
+
 	public static HttpResponse postValues(HashMap<String, String> postvars, String url) throws NoSuchAlgorithmException, ClientProtocolException, IOException{
 		DefaultHttpClient httpclient = new DefaultHttpClient();
 		httpclient.getCredentialsProvider().setCredentials(new AuthScope(AuthScope.ANY_HOST, AuthScope.ANY_PORT),
@@ -119,7 +162,7 @@ public class DbxpManager implements IBioclipseManager {
 		HttpContext localContext = new BasicHttpContext();
 		return httpclient.execute(httppost, localContext);
 	}
-	
+
 	public static Map<String, String> authenticate() throws IOException, NoSuchAlgorithmException{
 		DefaultHttpClient httpclient = new DefaultHttpClient();
 		httpclient.getCredentialsProvider().setCredentials(new AuthScope(AuthScope.ANY_HOST, AuthScope.ANY_PORT),
@@ -135,16 +178,16 @@ public class DbxpManager implements IBioclipseManager {
 		while ((s = stdInput.readLine()) != null) {
 			json += s;
 		}
-		
+
 		Gson gson = new Gson();
 		Map<String, String> loginData = gson.fromJson(json, new TypeToken<Map<String, String>>(){}.getType());
-		
+
 		token = loginData.get("token");
 		sequence = Integer.valueOf(loginData.get("sequence"));	
 
 		return loginData;
 	}
-	
+
 	public static String getValidation() throws IOException, NoSuchAlgorithmException {
 		sequence++;
 		String validation = token+sequence+apiKey;    
@@ -152,7 +195,7 @@ public class DbxpManager implements IBioclipseManager {
 		return md5;
 	}
 
-    
+
 	public static Map<String, Object> getStudies() throws IOException, NoSuchAlgorithmException{
 		HashMap<String, String> formvars = new HashMap<String, String>();
 		formvars.put("deviceID", getDeviceId());
@@ -164,7 +207,7 @@ public class DbxpManager implements IBioclipseManager {
 		while ((s = stdInput.readLine()) != null) {
 			json += s;
 		} 
-		
+
 		Gson gson = new Gson();
 		Map<String, Object> subjectsData = gson.fromJson(json, new TypeToken<Map<String, Object>>(){}.getType());
 		return subjectsData;
@@ -186,7 +229,7 @@ public class DbxpManager implements IBioclipseManager {
 		Map<String, Object> subjectsData = gson.fromJson(json, new TypeToken<Map<String, Object>>(){}.getType());
 		return subjectsData;
 	}
-	
+
 	public static Map<String, Object> getAssaysForStudy(String studyToken) throws NoSuchAlgorithmException, IOException{
 		HashMap<String, String> formvars = new HashMap<String, String>();
 		formvars.put("deviceID", getDeviceId());
@@ -199,11 +242,12 @@ public class DbxpManager implements IBioclipseManager {
 		while ((s = stdInput.readLine()) != null) {
 			json += s;
 		} 
+		System.out.println(json);
 		Gson gson = new Gson();
 		Map<String, Object> subjectsData = gson.fromJson(json, new TypeToken<Map<String, Object>>(){}.getType());
 		return subjectsData;
 	}
-	
+
 	public static Map<String, Object> getSamplesForAssay(String assayToken) throws NoSuchAlgorithmException, IOException{
 		HashMap<String, String> formvars = new HashMap<String, String>();
 		formvars.put("deviceID", getDeviceId());
@@ -220,7 +264,7 @@ public class DbxpManager implements IBioclipseManager {
 		Map<String, Object> subjectsData = gson.fromJson(json, new TypeToken<Map<String, Object>>(){}.getType());
 		return subjectsData;
 	}
-	
+
 
 	public static Map<String, Object> getMeasurementDataForAssay(String assayToken) throws NoSuchAlgorithmException, IOException{
 		HashMap<String, String> formvars = new HashMap<String, String>();
@@ -238,9 +282,9 @@ public class DbxpManager implements IBioclipseManager {
 		Map<String, Object> subjectsData = gson.fromJson(json, new TypeToken<Map<String, Object>>(){}.getType());
 		return subjectsData;
 	}
-    
- 
 
-    
-    
+
+
+
+
 }
