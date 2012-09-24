@@ -1,3 +1,4 @@
+package net.bioclipse.dbxp.business;
 
 public class IsatabA {
 	private String sampleName;
