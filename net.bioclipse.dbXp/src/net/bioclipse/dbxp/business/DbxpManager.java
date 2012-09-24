@@ -50,39 +50,6 @@ import com.google.gson.reflect.TypeToken;
 
 public class DbxpManager implements IBioclipseManager {
 
-	public class IsatabI {
-		private String investigationIdentifier;
-		private String investigationTitle;
-		private String investigationDescription;
-		private Date investigationSubmissionDate;
-		private Date investigationPublicReleaseDate;
-
-		public Investigation(String investigationIdentifier, String investigationTitle, String investigationDescription, Date investigationSubmissionDate, Date investigationPublicReleaseDate) {
-			this.investigationIdentifier = investigationIdentifier;
-			this.investigationTitle = investigationTitle;
-			this.investigationDescription = investigationDescription;
-			this.investigationSubmissionDate = investigationSubmissionDate;
-			this.investigationPublicReleaseDate = investigationPublicReleaseDate;
-		}
-		
-		public String getInvestigationIdentifier(){ return investigationIdentifier;}
-		
-		public String getInvestigationTitle(){ return investigationTitle;}
-		
-		public String getInvestigationDescription() { return investigationDescription;}
-		
-		public Date getInvestigationSubmissionDate() {return investigationSubmissionDate;}
-		
-		public Date getInvestigationPublicReleaseDate() {return investigationPublicReleaseDate;}
-	}
-
-	public class IsatabS {
-
-	}
-
-	public class IsattabA {
-
-	}
 
 	private static final Logger logger = Logger.getLogger(DbxpManager.class);
 
